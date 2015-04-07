@@ -2,7 +2,7 @@
 
 /*
  Very important.
- Make sure to set the Type of this file to Cobjectire-C++ Source in the Xcode 
+ Make sure to set the Type of this file to Objective-C++ Source in the Xcode
  Identity and Type inspector  over here ---------------------------------------------------------->
  Also rename cpp to mm and add WebKit framework
  */
@@ -10,7 +10,8 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-        
+    
+    ofSetFrameRate(60);
     //loading a web URL:
     int margin = 10;
     webView.setSize(ofGetWidth()/2-margin*2,ofGetHeight()-margin*2);
@@ -18,6 +19,9 @@ void ofApp::setup(){
     
     ofAddListener(webView.LOAD_URL,this,&ofApp::onPageLoad);
     
+    
+    //doesn't seem to support WebGL
+    //webView.loadURL("http://threejs.org/examples/#webgl_buffergeometry_rawshader");
     webView.loadURL("http://localprojects.net");
     
     bg = 0;
@@ -28,7 +32,7 @@ void ofApp::onPageLoad(WebViewEvent &e){
     cout<<"This stuff is being loaded now "<<e.URL<<endl;
     
     
-    //if you want to block it..maybe to extact javascript variables
+    //if you want to block it..maybe to extract javascript variables
     //webView.setAllowPageLoad(false);
 
 };
