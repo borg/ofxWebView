@@ -58,6 +58,8 @@ class ofxWebView : ofRectangle {
     ofRectangle getSize();
     void setPosition(int x, int y);
     
+    void setDrawsBackground(bool b);
+    bool getDrawBackground();
     
     ofEvent <WebViewEvent> LOAD_URL;
     
@@ -68,10 +70,13 @@ protected:
     void setWebViewFrame(ofRectangle frame);
     
     bool _allowPageLoad;
+    bool _drawBg;
     
     //WebListener *webListener;
     WebView * webView;
     NSWindow * window;
+    
+
 };
 
 

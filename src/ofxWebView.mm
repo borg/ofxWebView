@@ -124,6 +124,7 @@ ofxWebView::ofxWebView() {
     setPosition(0,0);
     setSize(ofGetWidth(),ofGetHeight());
     
+    _drawBg = false;
     
     webView = [[WebView alloc] initWithFrame:bounds
                                    frameName:@"OF-frame"
@@ -137,6 +138,8 @@ ofxWebView::ofxWebView() {
     [webView setHostWindow:window];
     [window.contentView addSubview:webView];
     
+    [window.contentView setBackgroundColor:[NSColor clearColor]];
+     
     _allowPageLoad = true;
     
     WebListener *webListener = [[WebListener alloc] init];
@@ -147,13 +150,6 @@ ofxWebView::ofxWebView() {
     [webView setPolicyDelegate:webListener];
     //[webView setFrameLoadDelegate:webListener];
     //[webView setResourceLoadDelegate:webListener];
-    
-    //loading a local URL:
-    /*
-     NSURL * url = [NSURL fileURLWithPath:@"/some/path/to/page.html"];
-     NSURLRequest * req = [NSURLRequest requestWithURL:url];
-     [[webView mainFrame] loadRequest:req];
-     */
     
     
 }
@@ -205,7 +201,19 @@ void ofxWebView::setHTML(string htm,string base){
 
 };
 
+void ofxWebView::setDrawsBackground(bool b){
+    
+    _drawBg = b;
 
+    
+    [webView setDrawsBackground:_drawBg];
+
+};
+
+
+bool ofxWebView::getDrawBackground(){
+    return _drawBg;
+};
 
 void ofxWebView::toTexture(ofTexture *tex){
     NSSize imgSize = webView.bounds.size;
