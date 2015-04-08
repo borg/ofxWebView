@@ -195,6 +195,18 @@ void ofxWebView::loadFile(string file){
     [[webView mainFrame] loadRequest:req];
 }
 
+
+
+void ofxWebView::setHTML(string htm,string base){
+    NSString *str = [NSString stringWithUTF8String:htm.c_str()];
+    NSString *bStr = [NSString stringWithUTF8String:base.c_str()];
+    NSURL * bUrl = [NSURL fileURLWithPath:bStr];
+    [[webView mainFrame] loadHTMLString:str baseURL:bUrl];
+
+};
+
+
+
 void ofxWebView::toTexture(ofTexture *tex){
     NSSize imgSize = webView.bounds.size;
     

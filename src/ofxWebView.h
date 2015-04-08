@@ -50,6 +50,7 @@ class ofxWebView : ofRectangle {
     
     void loadURL(string url);
     void loadFile(string file);//local html
+    void setHTML(string htm,string base="");
     
     void toTexture(ofTexture *tex);
     
