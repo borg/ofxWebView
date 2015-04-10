@@ -40,7 +40,7 @@ public:
 
 
 
-class ofxWebView : ofRectangle {
+class ofxWebView : public ofRectangle {
 	
   public:
 	

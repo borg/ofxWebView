@@ -3,14 +3,17 @@
  *  WebView
  *
  *  Created by Andreas Borg on 06/04/2015
- *  Copyright 2015 __MyCompanyName__. All rights reserved.
+ *  Copyright 2015 LocalProjects. All rights reserved.
  *
  */
 
 #include "ofxWebView.h"
 
 
+//TODO: Explore alternative aproaches for conversion that better handle alpha/antialias
+//eg. https://gist.github.com/shpakovski/7696268
 
+//Check if fuzziness is related to rounding error float/int, on set size / image resize
 
 //--------------------------------------------------------------
 bool NSBitmapToOFTexture(NSBitmapImageRep *uiImage, ofTexture *outTexture, int targetWidth, int targetHeight) {
@@ -216,15 +219,19 @@ bool ofxWebView::getDrawBackground(){
 };
 
 void ofxWebView::toTexture(ofTexture *tex){
-    NSSize imgSize = webView.bounds.size;
     
-    NSBitmapImageRep * bir = [webView bitmapImageRepForCachingDisplayInRect:[webView bounds]];
-    [bir setSize:imgSize];
+    //NSSize imgSize = webView.bounds.size;
+    //NSBitmapImageRep * bir = [webView bitmapImageRepForCachingDisplayInRect:[webView bounds]];
+    //[bir setSize:imgSize];
+    //[webView cacheDisplayInRect:[webView bounds] toBitmapImageRep:bir];
+    //NSBitmapToOFTexture(bir, tex,imgSize.width,imgSize.height);
     
-    [webView cacheDisplayInRect:[webView bounds] toBitmapImageRep:bir];
     
-    NSBitmapToOFTexture(bir, tex,imgSize.width,imgSize.height);
-
+    
+    NSRect f = (NSRect){getX(), -getY(), getWidth(), getHeight()};
+    NSBitmapImageRep * bir = [webView bitmapImageRepForCachingDisplayInRect:f];
+    [webView cacheDisplayInRect:f toBitmapImageRep:bir];
+    NSBitmapToOFTexture(bir, tex,getWidth(),getHeight());
 
 };
 
