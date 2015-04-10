@@ -187,8 +187,22 @@ void ofxWebView::loadURL(string _url){
 };
 
 
-void ofxWebView::loadFile(string file){
-    NSString *str = [NSString stringWithUTF8String:file.c_str()];
+void ofxWebView::loadFile(string file, bool relativeToData){
+    
+    if(!ofFile::doesFileExist(file,relativeToData)){
+        ofLogError()<<"File "<<file<<" not found"<<endl;
+        return;
+    }
+    
+    NSString *str;
+    
+    if(relativeToData){
+        ofFile f;
+        f.open(file);
+        str = [NSString stringWithUTF8String:f.getAbsolutePath().c_str()];
+    }else{
+        str = [NSString stringWithUTF8String:file.c_str()];
+    }
     NSURL * url = [NSURL fileURLWithPath:str];
     NSURLRequest * req = [NSURLRequest requestWithURL:url];
     [[webView mainFrame] loadRequest:req];

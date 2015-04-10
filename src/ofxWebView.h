@@ -49,7 +49,7 @@ class ofxWebView : public ofRectangle {
 
     
     void loadURL(string url);
-    void loadFile(string file);//local html
+    void loadFile(string file, bool relativeToData = true);//local html
     void setHTML(string htm,string base="");
     
     void toTexture(ofTexture *tex);
