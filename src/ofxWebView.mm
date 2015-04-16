@@ -242,7 +242,8 @@ void ofxWebView::toTexture(ofTexture *tex){
     
     
     
-    NSRect f = (NSRect){getX(), -getY(), getWidth(), getHeight()};
+    //NSRect f = (NSRect){getX(), -getY(), getWidth(), getHeight()};
+    NSRect f = (NSRect){0,0, getWidth(), getHeight()};
     NSBitmapImageRep * bir = [webView bitmapImageRepForCachingDisplayInRect:f];
     [webView cacheDisplayInRect:f toBitmapImageRep:bir];
     NSBitmapToOFTexture(bir, tex,getWidth(),getHeight());
