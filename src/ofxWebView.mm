@@ -123,7 +123,7 @@ bool NSBitmapToOFTexture(NSBitmapImageRep *uiImage, ofTexture *outTexture, int t
 ofxWebView::ofxWebView() {
     window = (NSWindow *)(ofAppGLFWWindow *)ofGetWindowPtr()->getCocoaWindow();
     
-    NSRect bounds = {0,0,ofGetWidth(),ofGetHeight()};//[window.contentView bounds]
+    NSRect bounds = {0,0,static_cast<CGFloat>(ofGetWidth()),static_cast<CGFloat>(ofGetHeight())};//[window.contentView bounds]
     setPosition(0,0);
     setSize(ofGetWidth(),ofGetHeight());
     
@@ -150,9 +150,11 @@ ofxWebView::ofxWebView() {
     [webListener  setOfView: this];
     
     //more delegate options here https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/DisplayWebContent/Concepts/WebKitDesign.html#//apple_ref/doc/uid/20002024-128170
-    [webView setPolicyDelegate:webListener];
+   // [webView setPolicyDelegate:webListener];
     //[webView setFrameLoadDelegate:webListener];
     //[webView setResourceLoadDelegate:webListener];
+    
+
     
     
 }
@@ -243,6 +245,8 @@ void ofxWebView::toTexture(ofTexture *tex){
     
     
     //NSRect f = (NSRect){getX(), -getY(), getWidth(), getHeight()};
+
+    
     NSRect f = (NSRect){0,0, getWidth(), getHeight()};
     NSBitmapImageRep * bir = [webView bitmapImageRepForCachingDisplayInRect:f];
     [webView cacheDisplayInRect:f toBitmapImageRep:bir];
@@ -272,7 +276,7 @@ ofRectangle ofxWebView::getSize(){
 void ofxWebView::setWebViewFrame(ofRectangle frame) {
     NSRect f;
     if(frame.isEmpty()) {
-        f = [window.contentView bounds];
+        f = NSMakeRect([window.contentView bounds].origin.x, [window.contentView bounds].origin.y, [window.contentView bounds].size.width, [window.contentView bounds].size.height);
     } else {
         //y upside down?
         f = (NSRect){frame.x, -frame.y, frame.width, frame.height};
